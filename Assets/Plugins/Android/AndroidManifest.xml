@@ -5,6 +5,9 @@
   <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
   <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
   <application android:usesCleartextTraffic="false">
+    <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID"
+               android:value="ca-app-pub-5482223041848551~2022171833"
+               tools:replace="android:value" />
     <activity android:name="com.unity3d.player.UnityPlayerActivity" android:theme="@style/UnityThemeSelector">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />

@@ -17,9 +17,9 @@ namespace AnyThinkAds.Api
         void didGetUserLocation(int location);
     }
 
-     public interface ATConsentDismissListener
+    public interface ATConsentDismissListener
         {
-            void onConsentDismiss();
+            void onConsentDismiss(ATConsentDismissInfo consentDismissInfo);
         }
 
 
@@ -31,6 +31,11 @@ namespace AnyThinkAds.Api
 
     public class ATSDKAPI
     {
+        /// <summary>
+        /// Unity plugin version. Keep in sync with ATConfig.PLUGIN_VERSION.
+        /// </summary>
+        public const string Version = "2.1.9";
+
         public static readonly int kATUserLocationUnknown = 0;
         public static readonly int kATUserLocationInEU = 1;
         public static readonly int kATUserLocationOutOfEU = 2;
@@ -108,6 +113,12 @@ namespace AnyThinkAds.Api
             client.getUserLocation(listener);
         }
 
+        /// <summary>Async EU traffic check; <paramref name="appId"/> matches the UMP / multi-app binding. Mirrors native <c>ATSDK.checkIsEuTraffic(context, callback, appId)</c>.</summary>
+        public static void checkIsEuTraffic(ATGetUserLocationListener listener, string appId)
+        {
+            client.checkIsEuTraffic(listener, appId);
+        }
+
         public static int getGDPRLevel() {
             return client.getGDPRLevel();
         }
@@ -144,6 +155,62 @@ namespace AnyThinkAds.Api
         public static void showGDPRConsentDialog(ATConsentDismissListener listener)
         {
             client.showGDPRConsentDialog(listener);
+        }
+
+        public static void showGDPRConsentDialog(ATConsentDismissListener listener, string appId)
+        {
+            client.showGDPRConsentDialog(listener, appId);
+        }
+
+        public static void showGDPRConsentSecondDialog(ATConsentDismissListener listener, string appId)
+        {
+            client.showGDPRConsentSecondDialog(listener, appId);
+        }
+
+        public static void setLocalStrategyAssetPath(string assetPath)
+        {
+            client.setLocalStrategyAssetPath(assetPath);
+        }
+
+        public static void start()
+        {
+            client.start();
+        }
+
+        public static string getSDKVersion()
+        {
+            return client.getSDKVersion();
+        }
+
+        /// <summary>Mirrors native <c>ATSDK.setSharedPlacementConfig</c>. Pass a nested dictionary that mirrors the per-format <c>*LocalExtra</c> maps.</summary>
+        public static void setSharedPlacementConfig(Dictionary<string, object> config)
+        {
+            if (config == null) return;
+            client.setSharedPlacementConfig(JsonMapper.ToJson(config));
+        }
+
+        /// <summary>Set ad-network device/permission policy. On Android the bridge keeps it for each network's CustomController. Keep this JSON separate from <see cref="putFilter"/>.</summary>
+        public static void setAdSourcePrivacyPolicy(Dictionary<string, object> policy)
+        {
+            if (policy == null) return;
+            client.setAdSourcePrivacyPolicy(JsonMapper.ToJson(policy));
+        }
+
+        /// <summary>Set per-placement waterfall filter; <paramref name="filterSpec"/> must contain <c>groups</c>: AND inside a group, OR across groups.</summary>
+        public static void putFilter(string placementId, Dictionary<string, object> filterSpec)
+        {
+            if (string.IsNullOrEmpty(placementId) || filterSpec == null) return;
+            client.putFilter(placementId, JsonMapper.ToJson(filterSpec));
+        }
+
+        public static void removeFilterWithPlacementId(string placementId)
+        {
+            client.removeFilterWithPlacementId(placementId);
+        }
+
+        public static void removeFilters()
+        {
+            client.removeFilters();
         }
 
         public static void setLogDebug(bool isDebug)

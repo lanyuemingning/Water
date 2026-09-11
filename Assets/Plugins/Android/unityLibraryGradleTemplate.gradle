@@ -1,0 +1,51 @@
+apply plugin: 'com.android.library'
+**ANDROID_CODE**
+
+android {
+    namespace "com.unity3d.player"
+    
+    compileSdkVersion **APIVERSION**
+    
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    defaultConfig {
+        minSdkVersion **MINSDKVERSION**
+        targetSdkVersion **TARGETSDKVERSION**
+        ndk {
+            abiFilters **ABIFILTERS**
+        }
+        versionCode **VERSIONCODE**
+        versionName '**VERSIONNAME**'
+        consumerProguardFiles 'proguard-unity.txt'**USER_PROGUARD**
+**DEFAULT_CONFIG_SETUP**
+    }
+
+    aaptOptions {
+        noCompress = **BUILTIN_NOCOMPRESS** + unityStreamingAssets.tokenize(', ')
+        ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~"
+    }**PACKAGING_OPTIONS**
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+**ANDROID_DEPENDENCIES**
+}
+
+**IL_CPP_DEPS**
+**MAIN_GRADLE_DEPS**
+
+tasks.whenTaskAdded {
+    if (it.name == 'mergeReleaseResources' || it.name == 'mergeDebugResources') {
+        it.dependsOn 'mergeGeneratedProguardFileIntoJar'
+    }
+    if (it.name == 'generateReleaseResources' || it.name == 'generateDebugResources') {
+        it.dependsOn 'mergeGeneratedProguardFileIntoJar'
+    }
+}

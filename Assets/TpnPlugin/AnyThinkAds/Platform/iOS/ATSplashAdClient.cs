@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +26,7 @@ namespace AnyThinkAds.iOS {
         public event EventHandler<ATAdEventArgs>        onAdSourceBiddingAttemptEvent;
         public event EventHandler<ATAdEventArgs>        onAdSourceBiddingFilledEvent;
         public event EventHandler<ATAdErrorEventArgs>   onAdSourceBiddingFailureEvent;
+        public event EventHandler<ATAdEventArgs>        onAdMultipleLoadedEvent;
 		public event EventHandler<ATAdEventArgs>        onAdLoadTimeoutEvent;
 		public event EventHandler<ATAdEventArgs>        onDeeplinkEvent;
 		public event EventHandler<ATAdEventArgs>        onDownloadConfirmEvent;  
@@ -33,6 +34,12 @@ namespace AnyThinkAds.iOS {
 		public void addsetting(string placementId,string json){
 			//todo...
 		}
+
+		public void onAdMultipleLoaded(string placementId, string requestingInfoJson)
+        {
+            onAdMultipleLoadedEvent?.Invoke(this, new ATAdEventArgs(placementId, requestingInfoJson ?? ""));
+			Debug.Log("Unity: ATSplashAdClient::onAdMultipleLoaded(" + placementId + ", " + requestingInfoJson + ")");
+        }
 
 		public void setListener(ATSplashAdListener listener) {
 			Debug.Log("Unity: ATSplashAdAdClient::setListener()");
@@ -53,7 +60,7 @@ namespace AnyThinkAds.iOS {
 		public void showSplashAd(string placementId, string mapJson) {
 			Debug.Log("Unity: ATSplashAdAdClient::showSplashAd()");
 			ATSplashAdWrapper.showSplashAd(placementId, mapJson);
-		}
+		} 
 
 		public void cleanCache(string placementId) {
 			Debug.Log("Unity: ATSplashAdAdClient::cleanCache()");
@@ -72,10 +79,18 @@ namespace AnyThinkAds.iOS {
 		}
 
 		public void entryScenarioWithPlacementID(string placementId, string scenarioID){
-            Debug.Log("Unity: ATSplashAdAdClient::entryScenarioWithPlacementID()");
-			ATSplashAdWrapper.entryScenarioWithPlacementID(placementId,scenarioID);
+			entryScenarioWithPlacementID(placementId, scenarioID, null);
 		}
 
+		public void entryScenarioWithPlacementID(string placementId, string scenarioID, string tkExtraJson){
+            Debug.Log("Unity: ATSplashAdClient::entryScenarioWithPlacementID(placementId=" + placementId + ", scenarioID=" + scenarioID + ", tkExtraJson length=" + (tkExtraJson != null ? tkExtraJson.Length : 0) + ")");
+			ATSplashAdWrapper.entryScenarioWithPlacementID(placementId,scenarioID,tkExtraJson);
+		}
+
+		public void setAdRevenueListener(string placementId, IATAdRevenueListener listener) {
+			Debug.Log("Unity: ATSplashAdClient::setAdRevenueListener(placementId=" + placementId + ", listener=" + (listener != null ? "set" : "null") + ")");
+			ATSplashAdWrapper.setAdRevenueListener(placementId, listener);
+		} 
 
 		//Callbacks
 		public void OnSplashAdDeeplink(string placementID, String callbackJson, bool isSuccess) {
@@ -219,8 +234,13 @@ namespace AnyThinkAds.iOS {
 		}
 		public void entryAutoAdScenarioWithPlacementID(string placementId, string scenarioID) 
 		{
-			Debug.Log("Unity: ATSplashAdAdClient:entryAutoAdScenarioWithPlacementID()");
-			ATSplashAdWrapper.entryAutoAdScenarioWithPlacementID(placementId, scenarioID);
+			entryAutoAdScenarioWithPlacementID(placementId, scenarioID, null);
+		}
+
+		public void entryAutoAdScenarioWithPlacementID(string placementId, string scenarioID, string tkExtraJson) 
+		{
+			Debug.Log("Unity: ATSplashAdClient::entryAutoAdScenarioWithPlacementID(placementId=" + placementId + ", scenarioID=" + scenarioID + ", tkExtraJson length=" + (tkExtraJson != null ? tkExtraJson.Length : 0) + ")");
+			ATSplashAdWrapper.entryAutoAdScenarioWithPlacementID(placementId, scenarioID, tkExtraJson);
 		}
 		public void showAutoAd(string placementId, string mapJson) 
 		{
