@@ -53,38 +53,38 @@ public class JumpLevel : MonoBehaviour, ICanSendEvent, ICanGetUtility
     void Update()
     {
 // #if UNITY_EDITOR
-//         if (Input.GetKeyDown(KeyCode.A))
-//         {
-//             for (int i = 0; i < 2; i++)
-//                 this.SendEvent(new ReturnToMainEvent { PassLevel = true });
-//         }
+        // if (Input.GetKeyDown(KeyCode.A))
+        // {
+        //     for (int i = 0; i < 2; i++)
+        //         this.SendEvent(new ReturnToMainEvent { PassLevel = true });
+        // }
 
-//         if (Input.GetKeyDown(KeyCode.S))
-//         {
-//             for (int i = 0; i < 10; i++)
-//                 this.SendEvent(new ReturnToMainEvent { PassLevel = true });
-//         }
+        // if (Input.GetKeyDown(KeyCode.S))
+        // {
+        //     for (int i = 0; i < 10; i++)
+        //         this.SendEvent(new ReturnToMainEvent { PassLevel = true });
+        // }
 
-//         if (Input.GetKey(KeyCode.L))
-//         {
-//             LevelManager.Instance.AddMoveNum();
-//         }
+        // if (Input.GetKey(KeyCode.L))
+        // {
+        //     LevelManager.Instance.AddMoveNum();
+        // }
 
-//         if (Input.GetKeyDown(KeyCode.H))
-//         {
-//             debugPanel.SetActive(true);
-//         }
+        // if (Input.GetKeyDown(KeyCode.H))
+        // {
+        //     debugPanel.SetActive(true);
+        // }
 
-//         if (Input.GetKeyDown(KeyCode.G))
-//         {
-//             i++;
-//             LevelManager.Instance.StartGame(this.GetUtility<SaveDataUtility>().GetCurrentLevel() + i);
-//         }
+        // if (Input.GetKeyDown(KeyCode.G))
+        // {
+        //     i++;
+        //     LevelManager.Instance.StartGame(this.GetUtility<SaveDataUtility>().GetCurrentLevel() + i);
+        // }
 
-//         if (Input.GetKeyDown(KeyCode.O))
-//         {
-//             LevelManager.Instance.CurtainUpdate();
-//         }
+        // if (Input.GetKeyDown(KeyCode.O))
+        // {
+        //     LevelManager.Instance.CurtainUpdate();
+        // }
 // #endif
 
 //         // 3指长按打开调试面板（全平台生效）

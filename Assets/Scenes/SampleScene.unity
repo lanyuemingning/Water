@@ -18959,7 +18959,7 @@ MonoBehaviour:
   timeScale: 1
   freeze: 0
   layoutScaleMode: 0
-  referenceSize: {x: 1080, y: 1920.0001}
+  referenceSize: {x: 1079.9999, y: 1919.9999}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
   layoutScale: 1
@@ -25611,26 +25611,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 286e851868ad1464cba07eca72e166d1, type: 2}
   - {fileID: 11400000, guid: 1a0659b3c7874f046a69c2bbb295b6c1, type: 2}
   - {fileID: 11400000, guid: e6567d6595018dc4686efee470c28f32, type: 2}
-  - {fileID: 11400000, guid: 7c12cb32233d007499192fa7d292f8a1, type: 2}
-  - {fileID: 11400000, guid: 71eb79c4b08c196459750f885c60a1d0, type: 2}
-  - {fileID: 11400000, guid: a6fe26db58ac03b4daa1c1218f4ddf99, type: 2}
-  - {fileID: 11400000, guid: 8a4fd0fef08bdf249a60ca2d9d514664, type: 2}
-  - {fileID: 11400000, guid: c8553aeae9c70e04f85d3643c6eaa39f, type: 2}
-  - {fileID: 11400000, guid: 1090f3a03c95afe439a7dced025eee42, type: 2}
-  - {fileID: 11400000, guid: 9f5e644f547b7574496eccb7a6c33eab, type: 2}
-  - {fileID: 11400000, guid: 1ab5a0b4a7e249545ae9efbf0c061a9a, type: 2}
-  - {fileID: 11400000, guid: 4dc5ebbcb31734f41874236f8ba200b7, type: 2}
-  - {fileID: 11400000, guid: 9bac574c8ca0ea64b90dd22b2a07c137, type: 2}
-  - {fileID: 11400000, guid: 53828a60425158a40b056beea693eb45, type: 2}
-  - {fileID: 11400000, guid: 353b546854536b24e94abbe81693bbeb, type: 2}
-  - {fileID: 11400000, guid: 3156df22758452b4caba91e75eab1d8a, type: 2}
-  - {fileID: 11400000, guid: 81e2816d477e0894ab378067f58d27ec, type: 2}
-  - {fileID: 11400000, guid: 016083e02527e9644aecc72c91172e66, type: 2}
-  - {fileID: 11400000, guid: b642480f470a281468006713e26a0497, type: 2}
-  - {fileID: 11400000, guid: 06b337cdbb70b92488a5a6f4da1f9c0e, type: 2}
-  - {fileID: 11400000, guid: b7ca445786e078146b6ad7fd1ad109ce, type: 2}
-  - {fileID: 11400000, guid: 36cf8a84c35b7c1419766070b82086fa, type: 2}
-  - {fileID: 11400000, guid: 02c4dcdb6ea7f0e4cb96e85be96e82ec, type: 2}
   - {fileID: 11400000, guid: 5c05a07958ecc9847aae39050a02028a, type: 2}
   - {fileID: 11400000, guid: 43ce0e9abf583924ebbb1fe79221dc0a, type: 2}
   - {fileID: 11400000, guid: 1001b12cb5be74f4392299f1a6f16e4f, type: 2}
@@ -25651,16 +25631,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a87766e28f4ee674382af2656a173554, type: 2}
   - {fileID: 11400000, guid: 84767d6930d25684dad6f12441bd68a3, type: 2}
   - {fileID: 11400000, guid: ead60592af5fd56439e7f71ada0dffea, type: 2}
-  - {fileID: 11400000, guid: f5dc0f969fad63c4bb9201db3029a209, type: 2}
-  - {fileID: 11400000, guid: e62c18ff191309842a8a1716be5ed294, type: 2}
-  - {fileID: 11400000, guid: bd3d129688869df4b8f5ee48d2a24097, type: 2}
-  - {fileID: 11400000, guid: 74f1fb7910c5a8b47bdf838a9849c14e, type: 2}
-  - {fileID: 11400000, guid: 4b166300d12829e4eb94c57ad6d396f2, type: 2}
-  - {fileID: 11400000, guid: ade277f2be6471f4cae8de9704078fe4, type: 2}
-  - {fileID: 11400000, guid: f3ad4e32a928961418c82e61210504a1, type: 2}
-  - {fileID: 11400000, guid: c5f82ab84a3f52242b41dd67655c6295, type: 2}
-  - {fileID: 11400000, guid: 732cc87f7c7127b469bfd7ce8acadf53, type: 2}
-  - {fileID: 11400000, guid: 19a84b6f70d79aa479cae24f7fdb63c6, type: 2}
+  - {fileID: 11400000, guid: 53828a60425158a40b056beea693eb45, type: 2}
+  - {fileID: 11400000, guid: 353b546854536b24e94abbe81693bbeb, type: 2}
+  - {fileID: 11400000, guid: 3156df22758452b4caba91e75eab1d8a, type: 2}
+  - {fileID: 11400000, guid: 81e2816d477e0894ab378067f58d27ec, type: 2}
+  - {fileID: 11400000, guid: 016083e02527e9644aecc72c91172e66, type: 2}
+  - {fileID: 11400000, guid: b642480f470a281468006713e26a0497, type: 2}
+  - {fileID: 11400000, guid: 06b337cdbb70b92488a5a6f4da1f9c0e, type: 2}
+  - {fileID: 11400000, guid: b7ca445786e078146b6ad7fd1ad109ce, type: 2}
+  - {fileID: 11400000, guid: 36cf8a84c35b7c1419766070b82086fa, type: 2}
+  - {fileID: 11400000, guid: 02c4dcdb6ea7f0e4cb96e85be96e82ec, type: 2}
   - {fileID: 11400000, guid: 451552f3b880dc047a3caf5cb90dfc9a, type: 2}
   - {fileID: 11400000, guid: 5b3e73c47f3be424f834c4c981005d5a, type: 2}
   - {fileID: 11400000, guid: 2ab57e5f89e72294cb2357f9f574f671, type: 2}
