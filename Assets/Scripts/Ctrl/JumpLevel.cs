@@ -85,6 +85,13 @@ public class JumpLevel : MonoBehaviour, ICanSendEvent, ICanGetUtility
         // {
         //     LevelManager.Instance.CurtainUpdate();
         // }
+
+        // // 按 M 键测试弹出 GDPR 同意表单
+        // if (Input.GetKeyDown(KeyCode.M))
+        // {
+        //     Debug.Log("[Test] M key pressed, showing consent dialog");
+        //     ConsentManager.Instance.ShowConsentDialogAgain();
+        // }
 // #endif
 
 //         // 3指长按打开调试面板（全平台生效）

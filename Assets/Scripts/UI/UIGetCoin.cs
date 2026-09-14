@@ -169,10 +169,15 @@ namespace QFramework.Example
             if (curLevel > START_AD_LIMIT)
             {
                 if (curLevel > START_AD_LIMIT2)
+                {
+                    Debug.Log($"[Ad] Interstitial triggered: level {curLevel} (> {START_AD_LIMIT2}), every level");
                     TopOnADManager.Instance.ShowIntersAd(null, null);
-
+                }
                 else if (curLevel % 2 == 0)
+                {
+                    Debug.Log($"[Ad] Interstitial triggered: level {curLevel} (even, range {START_AD_LIMIT}-{START_AD_LIMIT2})");
                     TopOnADManager.Instance.ShowIntersAd(null, null);
+                }
             }
         }
 

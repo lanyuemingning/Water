@@ -23,6 +23,11 @@ public class TopOnADManager : MonoSingleton<TopOnADManager>
         ATSDKAPI.setLogDebug(false);
         ATSDKAPI.initSDK("h69b917279442c", "a3ada064f1d201982989c98ec302c24f7");  //AppID��AppKey
 
+#if UNITY_ANDROID && !UNITY_EDITOR
+        // 默认设为非个性化，等 ConsentManager 异步检查完成后再更新
+        ATSDKAPI.setGDPRLevel(ATSDKAPI.NONPERSONALIZED);
+#endif
+
         addAutoLoadAdPlacementID();
     }
 
