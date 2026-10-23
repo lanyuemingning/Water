@@ -101,11 +101,19 @@ public class BattlePassModel : AbstractModel, ICanGetUtility
         //数据持有
         mJsonFileUtility.LoadFromJson(mCurFilePath, jsonData =>
         {
-            mBPDate = JsonConvert.DeserializeObject<BattlePassData>(jsonData);
+            try
+            {
+                mBPDate = JsonConvert.DeserializeObject<BattlePassData>(jsonData);
+            }
+            catch (JsonException e)
+            {
+                Debug.LogError($"[BattlePass] JSON parse failed, reloading from default: {e.Message}");
+                ReloadBattlePassActivity();
+            }
         });
 
-        if (RewardLevel < BPDate.Rewards.Length)
-            mCurrentGetConditions = BPDate.Rewards[RewardLevel].GetConditions;
+        if (mBPDate != null && RewardLevel < mBPDate.Rewards.Length)
+            mCurrentGetConditions = mBPDate.Rewards[RewardLevel].GetConditions;
         else
             mCurrentGetConditions = GameDefine.GameConst.MAX_INT;
     }
@@ -115,7 +123,7 @@ public class BattlePassModel : AbstractModel, ICanGetUtility
     /// </summary>
     public void ReloadBattlePassActivity()
     {
-        // 清除战令高级激活和进度(奖励领取，战令级别)
+        // 清除战令高级激活和进度 (奖励领取，战令级别)
         mGameWinNum.Value = 0;
         mRewardLevel.Value = 1;
         mVipRewardGotLevel.Value = 0;
@@ -123,9 +131,16 @@ public class BattlePassModel : AbstractModel, ICanGetUtility
         mIsVip.Value = false;
         mJsonFileUtility.LoadFromJson(mDelFilePath, jsonData =>
         {
-            BattlePassData tempData = JsonConvert.DeserializeObject<BattlePassData>(jsonData);
-            mJsonFileUtility.SaveToJson(mCurFilePath, tempData);
-            mBPDate = tempData;
+            try
+            {
+                BattlePassData tempData = JsonConvert.DeserializeObject<BattlePassData>(jsonData);
+                mJsonFileUtility.SaveToJson(mCurFilePath, tempData);
+                mBPDate = tempData;
+            }
+            catch (JsonException e)
+            {
+                Debug.LogError($"[BattlePass] Default JSON also failed to parse: {e.Message}");
+            }
         });
     }
     /// <summary>

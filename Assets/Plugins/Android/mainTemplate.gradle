@@ -8,6 +8,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1' // Assets/TpnPlugin/AnyThinkAds/Plugins/Android/NonChina/Editor/Dependencies.xml:7
     implementation 'androidx.browser:browser:1.4.0' // Assets/TpnPlugin/AnyThinkAds/Plugins/Android/NonChina/Editor/Dependencies.xml:8
     implementation 'com.anythink.sdk:adapter-tpn-admob:25.4.0.1.1' // Assets/TpnPlugin/AnyThinkAds/Plugins/Android/NonChina/mediation/admob/Editor/Dependencies.xml:3
+    implementation 'com.anythink.sdk:adapter-tpn-applovin:13.6.3.1.0' // Assets/TpnPlugin/AnyThinkAds/Plugins/Android/NonChina/mediation/applovin/Editor/Dependencies.xml:3
     implementation 'com.anythink.sdk:adapter-tpn-facebook:6.21.0.1.1' // Assets/TpnPlugin/AnyThinkAds/Plugins/Android/NonChina/mediation/facebook/Editor/Dependencies.xml:3
     implementation 'com.anythink.sdk:adapter-tpn-ironsource:9.2.0.1.0' // Assets/TpnPlugin/AnyThinkAds/Plugins/Android/NonChina/mediation/ironsource/Editor/Dependencies.xml:6
     implementation 'com.anythink.sdk:adapter-tpn-pangle:8.1.0.3.1.0' // Assets/TpnPlugin/AnyThinkAds/Plugins/Android/NonChina/mediation/pangle/Editor/Dependencies.xml:6
@@ -16,6 +17,7 @@ dependencies {
     implementation 'com.anythink.sdk:adapter-tpn-vungle:7.7.3.1.1' // Assets/TpnPlugin/AnyThinkAds/Plugins/Android/NonChina/mediation/vungle/Editor/Dependencies.xml:3
     implementation 'com.anythink.sdk:adapter-tpn-yandex:8.0.0.1.0' // Assets/TpnPlugin/AnyThinkAds/Plugins/Android/NonChina/mediation/yandex/Editor/Dependencies.xml:3
     implementation 'com.anythink.sdk:core-tpn:6.6.22.2' // Assets/TpnPlugin/AnyThinkAds/Plugins/Android/NonChina/Editor/Dependencies.xml:6
+    implementation 'com.applovin:applovin-sdk:13.6.3' // Assets/TpnPlugin/AnyThinkAds/Plugins/Android/NonChina/mediation/applovin/Editor/Dependencies.xml:4
     implementation 'com.facebook.android:audience-network-sdk:6.21.0' // Assets/TpnPlugin/AnyThinkAds/Plugins/Android/NonChina/mediation/facebook/Editor/Dependencies.xml:4
     implementation 'com.google.android.gms:play-services-ads:25.4.0' // Assets/TpnPlugin/AnyThinkAds/Plugins/Android/NonChina/mediation/admob/Editor/Dependencies.xml:4
     // implementation 'com.google.android.gms:play-services-ads-identifier:18.0.1' // Assets/TpnPlugin/AnyThinkAds/Plugins/Android/NonChina/mediation/vungle/Editor/Dependencies.xml:6

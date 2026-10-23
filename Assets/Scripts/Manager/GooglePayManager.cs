@@ -67,7 +67,20 @@ public class GooglePayManager : MonoSingleton<GooglePayManager>, IDetailedStoreL
     //购买时调用的接口，外部只需调用这一个接口即可
     public void BuyProduct(string pruductid)
     {
-        m_StoreController.InitiatePurchase(m_StoreController.products.WithID(pruductid));
+        if (m_StoreController == null)
+        {
+            Debug.LogWarning($"[GooglePay] Store not initialized, cannot buy: {pruductid}");
+            return;
+        }
+
+        var product = m_StoreController.products.WithID(pruductid);
+        if (product == null)
+        {
+            Debug.LogWarning($"[GooglePay] Product not found: {pruductid}");
+            return;
+        }
+
+        m_StoreController.InitiatePurchase(product);
     }
 
     /// <summary>

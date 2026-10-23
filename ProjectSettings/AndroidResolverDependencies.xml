@@ -4,6 +4,7 @@
     <package>androidx.appcompat:appcompat:1.6.1</package>
     <package>androidx.browser:browser:1.4.0</package>
     <package>com.anythink.sdk:adapter-tpn-admob:25.4.0.1.1</package>
+    <package>com.anythink.sdk:adapter-tpn-applovin:13.6.3.1.0</package>
     <package>com.anythink.sdk:adapter-tpn-facebook:6.21.0.1.1</package>
     <package>com.anythink.sdk:adapter-tpn-ironsource:9.2.0.1.0</package>
     <package>com.anythink.sdk:adapter-tpn-pangle:8.1.0.3.1.0</package>
@@ -12,6 +13,7 @@
     <package>com.anythink.sdk:adapter-tpn-vungle:7.7.3.1.1</package>
     <package>com.anythink.sdk:adapter-tpn-yandex:8.0.0.1.0</package>
     <package>com.anythink.sdk:core-tpn:6.6.22.2</package>
+    <package>com.applovin:applovin-sdk:13.6.3</package>
     <package>com.facebook.android:audience-network-sdk:6.21.0</package>
     <package>com.google.android.gms:play-services-ads:25.4.0</package>
     <package>com.google.android.gms:play-services-ads-identifier:18.0.1</package>

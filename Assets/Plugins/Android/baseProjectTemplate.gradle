@@ -11,3 +11,13 @@
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+subprojects {
+    if (project.name == 'unityLibrary') {
+        plugins.withId('com.android.library') {
+            android {
+                namespace 'com.unity3d.game'
+            }
+        }
+    }
+}
