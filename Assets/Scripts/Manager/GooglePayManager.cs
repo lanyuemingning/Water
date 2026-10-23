@@ -1,175 +1,157 @@
 ﻿using QFramework;
 using System;
-using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Purchasing;
-using UnityEngine.Purchasing.Extension;
 
-public class GooglePayManager : MonoSingleton<GooglePayManager>, IDetailedStoreListener
+public class GooglePayManager : MonoSingleton<GooglePayManager>
 {
-    IStoreController m_StoreController; // The Unity Purchasing system.
+    static readonly string[] ProductIds =
+    {
+        "battlepass_vip",
+        "gift_1",
+        "gift_2",
+        "gift_3",
+        "gift_4",
+        "gift_5",
+        "gift_6",
+        "gold_1",
+        "gold_2",
+        "gold_3",
+        "gold_4",
+        "gold_5",
+        "gold_6",
+        "pg_gift1",
+        "pg_gift2",
+        "pg_gift3",
+        "pg_gift4",
+        "pg_gift5",
+        "pg_gift6",
+        "pg_gift7",
+        "pg_gift8",
+        "pg_gift9",
+        "privilegepack_1",
+        "privilegepack_2",
+        "privilegepack_3",
+        "privilegepack_4",
+        "privilegepack_5",
+        "privilegepack_6",
+        "removeadpack_1",
+        "sepecialoffer_1",
+        "dgpack_vip",
+    };
+
+    StoreController m_StoreController;
+    bool m_Initialized;
+    string m_InitError;
 
     public override void OnSingletonInit()
     {
-        //初始化产品之前还要初始化 UnityServices，否则会抛出警告，但不影响内购
-        //UnityServices需要开启加入组织开启服务，用于数据分析
         InitializePurchasing();
     }
 
-    /// <summary>
-    /// 初始化产品
-    /// </summary>
-    void InitializePurchasing()
+    async void InitializePurchasing()
     {
-        var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
+        Debug.Log("[GooglePay] InitializePurchasing");
+        m_StoreController = UnityIAPServices.StoreController();
+        m_StoreController.OnStoreDisconnected += OnStoreDisconnected;
+        m_StoreController.OnProductsFetched += OnProductsFetched;
+        m_StoreController.OnProductsFetchFailed += OnProductsFetchFailed;
+        m_StoreController.OnPurchasePending += OnPurchasePending;
+        m_StoreController.OnPurchaseFailed += OnPurchaseFailed;
 
-        //初始化产品列表，这里要Google后台的产品列表一致
-        builder.AddProduct("battlepass_vip", ProductType.Consumable);
-
-        builder.AddProduct("gift_1", ProductType.Consumable);
-        builder.AddProduct("gift_2", ProductType.Consumable);
-        builder.AddProduct("gift_3", ProductType.Consumable);
-        builder.AddProduct("gift_4", ProductType.Consumable);
-        builder.AddProduct("gift_5", ProductType.Consumable);
-        builder.AddProduct("gift_6", ProductType.Consumable);
-
-        builder.AddProduct("gold_1", ProductType.Consumable);
-        builder.AddProduct("gold_2", ProductType.Consumable);
-        builder.AddProduct("gold_3", ProductType.Consumable);
-        builder.AddProduct("gold_4", ProductType.Consumable);
-        builder.AddProduct("gold_5", ProductType.Consumable);
-        builder.AddProduct("gold_6", ProductType.Consumable);
-
-        builder.AddProduct("pg_gift1", ProductType.Consumable);
-        builder.AddProduct("pg_gift2", ProductType.Consumable);
-        builder.AddProduct("pg_gift3", ProductType.Consumable);
-        builder.AddProduct("pg_gift4", ProductType.Consumable);
-        builder.AddProduct("pg_gift5", ProductType.Consumable);
-        builder.AddProduct("pg_gift6", ProductType.Consumable);
-        builder.AddProduct("pg_gift7", ProductType.Consumable);
-        builder.AddProduct("pg_gift8", ProductType.Consumable);
-        builder.AddProduct("pg_gift9", ProductType.Consumable);
-
-        builder.AddProduct("privilegepack_1", ProductType.Consumable);
-        builder.AddProduct("privilegepack_2", ProductType.Consumable);
-        builder.AddProduct("privilegepack_3", ProductType.Consumable);
-        builder.AddProduct("privilegepack_4", ProductType.Consumable);
-        builder.AddProduct("privilegepack_5", ProductType.Consumable);
-        builder.AddProduct("privilegepack_6", ProductType.Consumable);
-        
-        builder.AddProduct("removeadpack_1", ProductType.Consumable);
-        builder.AddProduct("sepecialoffer_1", ProductType.Consumable);
-        builder.AddProduct("dgpack_vip", ProductType.Consumable);
-
-        UnityPurchasing.Initialize(this, builder);
-    }
-
-    //购买时调用的接口，外部只需调用这一个接口即可
-    public void BuyProduct(string pruductid)
-    {
-        if (m_StoreController == null)
+        try
         {
-            Debug.LogWarning($"[GooglePay] Store not initialized, cannot buy: {pruductid}");
+            await m_StoreController.Connect();
+        }
+        catch (Exception e)
+        {
+            m_InitError = e.Message;
+            Debug.LogWarning($"[GooglePay] Connect threw: {e.Message}");
             return;
         }
 
-        var product = m_StoreController.products.WithID(pruductid);
+        if (this == null)
+        {
+            return;
+        }
+
+        var products = new List<ProductDefinition>(ProductIds.Length);
+        foreach (var id in ProductIds)
+        {
+            products.Add(new ProductDefinition(id, ProductType.Consumable));
+        }
+
+        m_StoreController.FetchProducts(products);
+    }
+
+    void OnStoreDisconnected(StoreConnectionFailureDescription description)
+    {
+        m_InitError = description.Message;
+        Debug.LogWarning($"[GooglePay] Store disconnected: {description.Message}");
+    }
+
+    void OnProductsFetched(List<Product> products)
+    {
+        m_Initialized = true;
+        m_InitError = null;
+        Debug.Log($"[GooglePay] In-App Purchasing successfully initialized, products: {products?.Count ?? 0}");
+        m_StoreController.FetchPurchases();
+    }
+
+    void OnProductsFetchFailed(ProductFetchFailed failed)
+    {
+        m_Initialized = false;
+        m_InitError = failed.FailureReason;
+        Debug.LogWarning($"[GooglePay] Products fetch failed: {failed.FailureReason}");
+    }
+
+    public void BuyProduct(string pruductid)
+    {
+        if (!m_Initialized || m_StoreController == null)
+        {
+            Debug.LogWarning($"[GooglePay] Store not initialized, cannot buy: {pruductid}. {m_InitError}");
+            return;
+        }
+
+        var product = m_StoreController.GetProductById(pruductid);
         if (product == null)
         {
             Debug.LogWarning($"[GooglePay] Product not found: {pruductid}");
             return;
         }
 
-        m_StoreController.InitiatePurchase(product);
+        m_StoreController.PurchaseProduct(product);
     }
 
-    /// <summary>
-    /// 初始化成功
-    /// </summary>
-    /// <param name="controller"></param>
-    /// <param name="extensions"></param>
-    public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
+    void OnPurchasePending(PendingOrder order)
     {
-        //初始化成功
-        Debug.Log("In-App Purchasing successfully initialized");
-        m_StoreController = controller;
-    }
-
-    /// <summary>
-    /// 初始化失败(旧版)
-    /// </summary>
-    /// <param name="error"></param>
-    public void OnInitializeFailed(InitializationFailureReason error)
-    {
-        //初始化失败
-        OnInitializeFailed(error, null);
-    }
-
-    /// <summary>
-    /// 初始化失败(新版)
-    /// </summary>
-    /// <param name="error"></param>
-    /// <param name="message"></param>
-    public void OnInitializeFailed(InitializationFailureReason error, string message)
-    {
-        //初始化失败
-        var errorMessage = $"Purchasing failed to initialize. Reason: {error}.";
-
-        if (message != null)
+        var product = order.CartOrdered.Items().FirstOrDefault()?.Product;
+        if (product == null)
         {
-            errorMessage += $" More details: {message}";
+            Debug.LogWarning("[GooglePay] Pending order has no product");
+            return;
         }
 
-        Debug.Log(errorMessage);
-    }
-
-    /// <summary>
-    /// 购买成功
-    /// </summary>
-    /// <param name="args"></param>
-    /// <returns></returns>
-    public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
-    {
-        //Retrieve the purchased product
-        var product = args.purchasedProduct;
-        //Add the purchased product to the players inventory
-        //付款成功
-        StringEventSystem.Global.Send(product.definition.id);
+        var productId = product.definition.id;
+        StringEventSystem.Global.Send(productId);
         StringEventSystem.Global.Send(GameDefine.GameConst.GIFT_PACK_ENTRY_STATE_CHANGED);
 
-        var productId = product.definition.id;
-        var receipt = product.receipt;
-        var price = product.metadata.localizedPrice;
-        var currencyCode = product.metadata.isoCurrencyCode;
+        TenjinManager.Instance.ReportIAPToTenjin(
+            productId,
+            product.metadata.isoCurrencyCode,
+            product.metadata.localizedPrice,
+            order.Info.Receipt);
 
-        TenjinManager.Instance.ReportIAPToTenjin(productId, currencyCode, price, receipt);
-
-        //We return Complete, informing IAP that the processing on our side is done and the transaction can be closed.
-        return PurchaseProcessingResult.Complete;
+        m_StoreController.ConfirmPurchase(order);
     }
 
-    /// <summary>
-    /// 购买失败(旧版)
-    /// </summary>
-    /// <param name="product"></param>
-    /// <param name="failureReason"></param>
-    public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
+    void OnPurchaseFailed(FailedOrder failedOrder)
     {
-        //付款失败
-        Debug.Log($"Purchase failed - Product: '{product.definition.id}', PurchaseFailureReason: {failureReason}");
-    }
-
-    /// <summary>
-    /// 购买失败(新版)
-    /// </summary>
-    /// <param name="product"></param>
-    /// <param name="failureDescription"></param>
-    public void OnPurchaseFailed(Product product, PurchaseFailureDescription failureDescription)
-    {
-        //付款失败
-        Debug.Log($"Purchase failed - Product: '{product.definition.id}'," +
-            $" Purchase failure reason: {failureDescription.reason}," +
-            $" Purchase failure details: {failureDescription.message}");
+        var productId = failedOrder.CartOrdered.Items().FirstOrDefault()?.Product.definition.id;
+        Debug.Log($"Purchase failed - Product: '{productId}'," +
+            $" Purchase failure reason: {failedOrder.FailureReason}," +
+            $" Purchase failure details: {failedOrder.Details}");
     }
 }
-
